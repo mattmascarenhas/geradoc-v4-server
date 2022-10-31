@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id            String @id @default(uuid())
+  nome          String
+  cpf           String
+  rg            String
+  nacionalidade String
+  estadoCivil   String
+  orgaoEmissor  String
+  endereco      String
+  cidade        String
+  estado        String
+  cep           String
+  numero        String
+  telefone      String
+  email         String
+  profissao     String
+
+  Blocks Block[]
+}
+
+model Block {
+  id       String @id @default(uuid())
+  clientId String
+  titulo   String
+  texto    String
+  Text     Text[]
+
+  client Client @relation(fields: [clientId], references: [id])
+}
+
+model Text {
+  id      String @id @default(uuid())
+  blockId String
+  titulo  String
+  texto   String
+
+  block Block @relation(fields: [blockId], references: [id])
+}
