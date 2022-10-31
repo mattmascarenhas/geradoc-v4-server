@@ -11,7 +11,7 @@ npm install node-dev
 adicionar no package.json { "type": "module", }
 -> arquivos .js agora serao .mjs
 
-npm install prisma -Dprims
+npm install prisma -D
 -> instalar o prisma
 
 npx prisma init --datasource-provider sqlite
@@ -24,6 +24,9 @@ npx prisma migrate diff --from-schema-datamodel
 
 npx prisma migrate dev
 -> toda vez que for fazer alterações nas tabelas do BD usar o comando
+
+npm i @prisma/client
+-> instalar o client para poder acessar os dados do BD
 
 npx prisma studio
 -> executar o prisma studio com as tabelas
