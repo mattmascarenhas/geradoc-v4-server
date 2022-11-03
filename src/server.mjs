@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 const port = 3333;
 //fazer com que o express entenda json
 app.use(express.json());
-
+/*=====================CLIENT======================= */
 //rota para listar os clientes
 app.get("/clients", async (req, res) => {
   const clients = await prisma.client.findMany();
@@ -85,11 +85,135 @@ app.put("/client/:id", async (req, res) => {
     },
   });
   try {
-    return res.json("Client Updated!");
+    return res.json(updateClient);
   } catch (err) {
     return res.status(500).json({ erro: err.message });
   }
 });
+/*=====================BLOCK======================= */
+//rota para listar os blocos
+app.get("/blocks", async (req, res) => {
+  const blocks = await prisma.block.findMany();
+  try {
+    return res.status(201).json(blocks);
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+});
+//rota para criar um block
+app.post("/clients/:id/blocks", async (req, res) => {
+  const idClient = req.params.id;
+  const body = req.body;
+
+  const block = await prisma.block.create({
+    data: {
+      clientId: idClient,
+      titulo: body.titulo,
+      texto: body.texto,
+    },
+  });
+  try {
+    return res.status(201).json(block);
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+});
+//rota para deletar um block
+app.delete("/blocks/:id", async (req, res) => {
+  const idClient = req.params.id;
+  const deleteBlock = await prisma.block.delete({
+    where: {
+      id: idClient,
+    },
+  });
+  try {
+    return res.json("Block Deleted!");
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+});
+//rota para editar um block
+app.put("/block/:id", async (req, res) => {
+  const idBlock = req.params.id;
+  const body = req.body;
+
+  const updateBlock = await prisma.block.update({
+    where: {
+      id: idBlock,
+    },
+    data: {
+      titulo: body.titulo,
+      texto: body.texto,
+    },
+  });
+  try {
+    return res.json(updateBlock);
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+});
+/*=====================TEXT======================= */
+//rota para listar os TEXTS
+app.get("/texts", async (req, res) => {
+  const texts = await prisma.text.findMany();
+  try {
+    return res.status(201).json(texts);
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+});
+// //rota para criar um block
+// app.post("/clients/:id/blocks", async (req, res) => {
+//   const idClient = req.params.id;
+//   const body = req.body;
+
+//   const block = await prisma.block.create({
+//     data: {
+//       clientId: idClient,
+//       titulo: body.titulo,
+//       texto: body.texto,
+//     },
+//   });
+//   try {
+//     return res.status(201).json(block);
+//   } catch (err) {
+//     return res.status(500).json({ erro: err.message });
+//   }
+// });
+// //rota para deletar um block
+// app.delete("/blocks/:id", async (req, res) => {
+//   const idClient = req.params.id;
+//   const deleteBlock = await prisma.block.delete({
+//     where: {
+//       id: idClient,
+//     },
+//   });
+//   try {
+//     return res.json("Block Deleted!");
+//   } catch (err) {
+//     return res.status(500).json({ erro: err.message });
+//   }
+// });
+// //rota para editar um block
+// app.put("/block/:id", async (req, res) => {
+//   const idBlock = req.params.id;
+//   const body = req.body;
+
+//   const updateBlock = await prisma.block.update({
+//     where: {
+//       id: idBlock,
+//     },
+//     data: {
+//       titulo: body.titulo,
+//       texto: body.texto,
+//     },
+//   });
+//   try {
+//     return res.json(updateBlock);
+//   } catch (err) {
+//     return res.status(500).json({ erro: err.message });
+//   }
+// });
 
 app.listen(port);
 
