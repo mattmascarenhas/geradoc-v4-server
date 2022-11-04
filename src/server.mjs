@@ -162,58 +162,56 @@ app.get("/texts", async (req, res) => {
     return res.status(500).json({ erro: err.message });
   }
 });
-// //rota para criar um block
-// app.post("/clients/:id/blocks", async (req, res) => {
-//   const idClient = req.params.id;
-//   const body = req.body;
+//rota para criar um text
+app.post("/texts", async (req, res) => {
+  const body = req.body;
 
-//   const block = await prisma.block.create({
-//     data: {
-//       clientId: idClient,
-//       titulo: body.titulo,
-//       texto: body.texto,
-//     },
-//   });
-//   try {
-//     return res.status(201).json(block);
-//   } catch (err) {
-//     return res.status(500).json({ erro: err.message });
-//   }
-// });
-// //rota para deletar um block
-// app.delete("/blocks/:id", async (req, res) => {
-//   const idClient = req.params.id;
-//   const deleteBlock = await prisma.block.delete({
-//     where: {
-//       id: idClient,
-//     },
-//   });
-//   try {
-//     return res.json("Block Deleted!");
-//   } catch (err) {
-//     return res.status(500).json({ erro: err.message });
-//   }
-// });
-// //rota para editar um block
-// app.put("/block/:id", async (req, res) => {
-//   const idBlock = req.params.id;
-//   const body = req.body;
+  const text = await prisma.text.create({
+    data: {
+      titulo: body.titulo,
+      texto: body.texto,
+    },
+  });
+  try {
+    return res.status(201).json(text);
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+});
+//rota para deletar um text
+app.delete("/texts/:id", async (req, res) => {
+  const idText = req.params.id;
+  const deleteBlock = await prisma.text.delete({
+    where: {
+      id: idText,
+    },
+  });
+  try {
+    return res.json("Text Deleted!");
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+});
+//rota para editar um block
+app.put("/texts/:id", async (req, res) => {
+  const idText = req.params.id;
+  const body = req.body;
 
-//   const updateBlock = await prisma.block.update({
-//     where: {
-//       id: idBlock,
-//     },
-//     data: {
-//       titulo: body.titulo,
-//       texto: body.texto,
-//     },
-//   });
-//   try {
-//     return res.json(updateBlock);
-//   } catch (err) {
-//     return res.status(500).json({ erro: err.message });
-//   }
-// });
+  const updateText = await prisma.text.update({
+    where: {
+      id: idText,
+    },
+    data: {
+      titulo: body.titulo,
+      texto: body.texto,
+    },
+  });
+  try {
+    return res.json(updateText);
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+});
 
 app.listen(port);
 

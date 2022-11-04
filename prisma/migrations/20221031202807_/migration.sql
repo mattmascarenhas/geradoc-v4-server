@@ -29,8 +29,6 @@ CREATE TABLE "Block" (
 -- CreateTable
 CREATE TABLE "Text" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "blockId" TEXT NOT NULL,
     "titulo" TEXT NOT NULL,
     "texto" TEXT NOT NULL,
-    CONSTRAINT "Text_blockId_fkey" FOREIGN KEY ("blockId") REFERENCES "Block" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );

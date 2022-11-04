@@ -41,10 +41,8 @@ model Block {
 }
 
 model Text {
-  id      String @id @default(uuid())
-  blockId String
-  titulo  String
-  texto   String
-
-  block Block @relation(fields: [blockId], references: [id])
+  id     String  @id @default(uuid())
+  titulo String
+  texto  String
+  blocks Block[]
 }
