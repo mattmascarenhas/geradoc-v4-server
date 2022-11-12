@@ -1,11 +1,15 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import cors from "cors";
 
 const app = express();
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: ["query"],
+});
 const port = 3333;
 //fazer com que o express entenda json
 app.use(express.json());
+app.use(cors());
 /*=====================CLIENT======================= */
 //rota para listar os clientes
 app.get("/clients", async (req, res) => {
@@ -16,6 +20,22 @@ app.get("/clients", async (req, res) => {
     return res.status(500).json({ erro: err.message });
   }
 });
+
+//rota para listar um unico cliente
+app.get("/clients/:id", async (req, res) => {
+  const idClient = req.params.id;
+  const client = await prisma.client.findUnique({
+    where: {
+      id: idClient,
+    },
+  });
+  try {
+    return res.json(client);
+  } catch (err) {
+    return res.status(500).json({ erro: err.message });
+  }
+});
+
 //rota para criar um client
 app.post("/clients", async (req, res) => {
   const body = req.body;
@@ -59,7 +79,7 @@ app.delete("/client/:id", async (req, res) => {
   }
 });
 //rota para editar um client
-app.put("/client/:id", async (req, res) => {
+app.post("/client/:id", async (req, res) => {
   const idClient = req.params.id;
   const body = req.body;
 
@@ -192,7 +212,7 @@ app.delete("/texts/:id", async (req, res) => {
     return res.status(500).json({ erro: err.message });
   }
 });
-//rota para editar um block
+//rota para editar um text
 app.put("/texts/:id", async (req, res) => {
   const idText = req.params.id;
   const body = req.body;
