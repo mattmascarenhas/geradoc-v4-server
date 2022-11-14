@@ -79,7 +79,7 @@ app.delete("/client/:id", async (req, res) => {
   }
 });
 //rota para editar um client
-app.post("/client/:id", async (req, res) => {
+app.put("/client/:id", async (req, res) => {
   const idClient = req.params.id;
   const body = req.body;
 
